@@ -1,7 +1,9 @@
+using Detran.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,10 +30,19 @@ namespace Detran.Api
         {
             services.AddControllers();
             services.AddMvc();
+            services.AddDependencyInjection();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi .NET", Version = "v1" });
             });
+
+            var serverVersion = new MySqlServerVersion(new Version(5, 6, 23));
+            services.AddDbContext<MySqlContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(Configuration.GetConnectionString("Localhost"), serverVersion)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

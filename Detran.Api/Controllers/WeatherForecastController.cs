@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Detran.Infrastructure.Entity;
+using Detran.Infrastructure.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,8 @@ namespace Detran.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IRepository<ApiUserRole> _apiUserRoleRepository;
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -18,9 +22,10 @@ namespace Detran.Api.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepository<ApiUserRole> apiUserRoleRepository)
         {
             _logger = logger;
+            _apiUserRoleRepository = apiUserRoleRepository;
         }
 
         [HttpGet]
@@ -34,6 +39,20 @@ namespace Detran.Api.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpPost]
+        public async ValueTask<ActionResult> Post([FromBody] RoleInput request)
+        {
+            var role = new ApiUserRole()
+            {
+                Role = request.Role,
+                Description = request.Description
+
+            };
+            var result = await _apiUserRoleRepository.CreateAsync(role);
+            _apiUserRoleRepository.SaveChanges();
+
+            return Ok(result);
         }
     }
 }

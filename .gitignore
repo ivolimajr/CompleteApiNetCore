@@ -3,3 +3,6 @@
 ################################################################################
 
 /Detran.Infrastructure/bin/Debug/netcoreapp3.1
+/Detran.Infrastructure/obj
+/Detran.Api/bin/Debug/netcoreapp3.1
+/Detran.Api/obj
