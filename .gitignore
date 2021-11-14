@@ -6,3 +6,5 @@
 /Detran.Infrastructure/obj
 /Detran.Api/bin/Debug/netcoreapp3.1
 /Detran.Api/obj
+/Detran.Shared/obj
+/Detran.Shared/bin/Debug/netcoreapp3.1

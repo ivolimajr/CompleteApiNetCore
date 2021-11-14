@@ -1,0 +1,15 @@
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Domain.deps.json
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Domain.dll
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Domain.pdb
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Infrastructure.dll
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Shared.dll
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Infrastructure.pdb
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\bin\Debug\netcoreapp3.1\Detran.Shared.pdb
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.csproj.AssemblyReference.cache
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.AssemblyInfoInputs.cache
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.AssemblyInfo.cs
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.csproj.CoreCompileInputs.cache
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.csproj.CopyComplete
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.dll
+C:\Git\Projetos\NET\CompleteApiNetCore\Detran.Domain\obj\Debug\netcoreapp3.1\Detran.Domain.pdb

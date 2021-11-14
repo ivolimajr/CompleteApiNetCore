@@ -1,4 +1,5 @@
 using Detran.Infrastructure.Context;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,9 @@ namespace Detran.Api
             services.AddControllers();
             services.AddMvc();
             services.AddDependencyInjection();
+
+            var assembly = AppDomain.CurrentDomain.Load("Detran.Domain");
+            services.AddMediatR(assembly);
 
             services.AddSwaggerGen(c =>
             {
