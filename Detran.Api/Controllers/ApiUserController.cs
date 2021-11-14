@@ -1,4 +1,5 @@
 ﻿using Detran.Domain.Application.Api.Roles.Create;
+using Detran.Domain.Application.Api.User.Create;
 using Detran.Infrastructure.Entity;
 using Detran.Shared.Helpers;
 using MediatR;
@@ -6,28 +7,25 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Detran.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class ApiUserController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public RoleController(IMediator mediator)
+        public ApiUserController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(typeof(ApiUserRole), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiUserCreateResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async ValueTask<ActionResult> Post([FromBody] ApiRoleCreateInput request)
+        public async ValueTask<ActionResult> Post([FromBody] ApiUserCreateInput request)
         {
             try
             {

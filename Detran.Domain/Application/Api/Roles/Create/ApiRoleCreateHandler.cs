@@ -40,7 +40,7 @@ namespace Detran.Domain.Application.Api.Roles.Create
             catch (Exception e)
             {
                 _apiRoleRepository.Rollback();
-                throw;
+                throw new Exception(e.Message);
             }
 
         }

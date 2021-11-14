@@ -22,6 +22,8 @@ namespace Detran.Domain.Application.Api.User.Create
         {
             try
             {
+                _authUserRepository.CreateTransaction();
+
                 var userExists = _authUserRepository.Find(u => u.UserName == request.UserName);
                 if (userExists != null) throw new HttpClientCustomException("Usuário já cadastrado");
 
@@ -30,14 +32,8 @@ namespace Detran.Domain.Application.Api.User.Create
                 for (int index = 0; index < request.Roles.Count; index++)
                 {
                     var result = _authUserRepository.Context.Set<ApiUserRole>().Where(e => e.Role == request.Roles[index]).FirstOrDefault();
-                    if (result != null)
-                    {
-                        roles.Add(result);
-                    }
-                    else
-                    {
-                        throw new HttpClientCustomException("Role inválida");
-                    }
+                    if (result == null) throw new HttpClientCustomException("Role inválida");
+                    roles.Add(result);
                 }
 
                 var AuthUserModel = new ApiUserModel()
@@ -49,7 +45,6 @@ namespace Detran.Domain.Application.Api.User.Create
                     CreatedAt = DateTime.Now,
                 };
 
-                _authUserRepository.CreateTransaction();
                 var authUser = await _authUserRepository.CreateAsync(AuthUserModel);
 
                 _authUserRepository.Commit();
@@ -59,7 +54,8 @@ namespace Detran.Domain.Application.Api.User.Create
                 {
                     Id = authUser.Id,
                     Name = authUser.Name,
-                    UserName = authUser.UserName
+                    UserName = authUser.UserName,
+                    Roles = roles
                 };
             }
             catch (Exception e)
