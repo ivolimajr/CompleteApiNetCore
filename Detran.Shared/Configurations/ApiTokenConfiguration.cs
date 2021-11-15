@@ -1,4 +1,4 @@
-﻿namespace Detran.Shared
+﻿namespace Detran.Shared.Configurations
 {
     public class ApiTokenConfiguration
     {

@@ -2,6 +2,7 @@
 using Detran.Domain.Application.Api.Auth.RefreshToken;
 using Detran.Shared.Helpers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

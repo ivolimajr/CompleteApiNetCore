@@ -1,6 +1,6 @@
 ﻿using Detran.Infrastructure.Entity;
 using Detran.Infrastructure.Repository;
-using Detran.Shared;
+using Detran.Shared.Configurations;
 using Detran.Shared.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Detran.Domain.Application.Api.Auth.GenerateToken
 {
-    class GenerateTokenHandler : IRequestHandler<GenerateTokenInput, GenerateTokenResponse>
+    public class GenerateTokenHandler : IRequestHandler<GenerateTokenInput, GenerateTokenResponse>
     {
         private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
         private ApiTokenConfiguration _configuration;

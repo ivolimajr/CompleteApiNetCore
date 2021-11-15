@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Detran.Api.Controllers
 {
     /// <summary>
-    /// Endpoints para obter o token e refreshToken
+    /// Endpoints para criar um usuário para consumir a API
     /// </summary>
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -23,6 +23,11 @@ namespace Detran.Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Cria o usuário
+        /// </summary>
+        /// <param name="request">Dados do usuario</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiUserCreateResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

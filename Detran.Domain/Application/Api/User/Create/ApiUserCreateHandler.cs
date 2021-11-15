@@ -25,14 +25,14 @@ namespace Detran.Domain.Application.Api.User.Create
                 _authUserRepository.CreateTransaction();
 
                 var userExists = _authUserRepository.Find(u => u.UserName == request.UserName);
-                if (userExists != null) throw new HttpClientCustomException("Usuário já cadastrado");
+                if (userExists != null) throw new HttpClientCustomException("User already exists");
 
                 var roles = new List<ApiUserRole>();
 
                 for (int index = 0; index < request.Roles.Count; index++)
                 {
                     var result = _authUserRepository.Context.Set<ApiUserRole>().Where(e => e.Role == request.Roles[index]).FirstOrDefault();
-                    if (result == null) throw new HttpClientCustomException("Role inválida");
+                    if (result == null) throw new HttpClientCustomException("Invalid Role");
                     roles.Add(result);
                 }
 

@@ -8,10 +8,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Detran.Shared;
 using Detran.Infrastructure.Repository;
 using Detran.Infrastructure.Entity;
 using Detran.Shared.Helpers;
+using Detran.Shared.Configurations;
 
 namespace Detran.Domain.Application.Api.Auth.RefreshToken
 {

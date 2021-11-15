@@ -1,4 +1,5 @@
 ﻿using Detran.Domain.Application.Api.Roles.Create;
+using Detran.Domain.CredPay.ConsultDebits;
 using Detran.Infrastructure.Entity;
 using Detran.Shared.Helpers;
 using MediatR;
@@ -14,14 +15,14 @@ namespace Detran.Api.Controllers
     /// Cria novas roles para usuários da API
     /// </summary>
     [ApiController]
-    [Authorize("Bearer")]
+    //[Authorize("Bearer")]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ApiRoleController : ControllerBase
+    public class DetranController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ApiRoleController(IMediator mediator)
+        public DetranController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -33,10 +34,10 @@ namespace Detran.Api.Controllers
         /// <param name="request">Role</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
-        [ProducesResponseType(typeof(ApiUserRole), StatusCodes.Status200OK)]
+        //[Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(ConsultDebitsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async ValueTask<ActionResult> Post([FromBody] ApiRoleCreateInput request)
+        public async ValueTask<ActionResult> Post([FromBody] ConsultDebitsInput request)
         {
             try
             {
