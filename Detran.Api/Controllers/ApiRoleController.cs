@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Detran.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Bearer")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ApiRoleController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,6 +24,7 @@ namespace Detran.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(ApiUserRole), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async ValueTask<ActionResult> Post([FromBody] ApiRoleCreateInput request)

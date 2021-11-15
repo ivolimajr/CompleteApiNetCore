@@ -1,9 +1,6 @@
-﻿using Detran.Domain.Application.Api.Roles.Create;
-using Detran.Domain.Application.Api.User.Create;
-using Detran.Infrastructure.Entity;
+﻿using Detran.Domain.Application.Api.User.Create;
 using Detran.Shared.Helpers;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace Detran.Api.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// Endpoints para obter o token e refreshToken
+    /// </summary>
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ApiUserController : ControllerBase
     {
