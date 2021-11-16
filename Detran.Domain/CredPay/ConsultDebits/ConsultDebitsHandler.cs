@@ -1,50 +1,67 @@
 ﻿using Detran.Shared.Configurations;
 using Detran.Shared.Helpers;
+using Detran.Shared.Services.HttpMethods;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Detran.Domain.CredPay.ConsultDebits
 {
     public class ConsultDebitsHandler : IRequestHandler<ConsultDebitsInput, ConsultDebitsResponse>
-    {    
+    {
         public IConfiguration Configuration { get; }
+        public CredPayTokenService TokenService { get; }
 
-        private string Url = "https://services-homolog.credpay.com.vc";
-        private string Token = "26b0eeb1a4b89fcf4b1520aa2b546f6b";
-        private string ApiVersion = "v2";
+        private const string ENDPOINT = "detran/debitos";
 
-        private static readonly HttpClient client = new HttpClient();
-
-        public ConsultDebitsHandler(IConfiguration configuration)
+        public ConsultDebitsHandler(IConfiguration configuration, IHttpClientFactory clientFactory, CredPayTokenService tokenService)
         {
             Configuration = configuration;
+            TokenService = tokenService;
+
+            var config = Configuration.GetSection("CredPayConfig").Get<CredPayConfig>();
+
+            TokenService.Token = config.Token;
+            TokenService.BaseAddress = config.Url;
+            TokenService.ApiVersion = config.ApiVersion;
         }
 
         public async Task<ConsultDebitsResponse> Handle(ConsultDebitsInput request, CancellationToken cancellationToken)
         {
 
-            //var config = Configuration.GetSection("CredPayConfig").Get<CredPayConfig>();
+            var config = Configuration.GetSection("CredPayConfig").Get<CredPayConfig>();
 
             try
             {
-                /*
                 CheckSuportedUf(request.Uf);
 
-                var request = client.PostAsync<ConsultDebitsResponse>(this.Url, request);
-                //var client = GetClient<DebitosInput, DebitosResponse, Guid>($"/{TokenService.ApiVersion}/detran/debitos");
-                //var response = await client.PostFormUrlEncoded(content);
-                return null;
-                */
+                var content = new FormUrlEncodedContent(new[]{
+                new KeyValuePair<string, string>("pais", request.Pais),
+                new KeyValuePair<string, string>("uf", request.Uf),
+                new KeyValuePair<string, string>("placa", request.Placa),
+                new KeyValuePair<string, string>("renavam", request.Renavam),
+                });
+
+                var client = GetClient<ConsultDebitsInput, ConsultDebitsResponse, Guid>($"/{TokenService.ApiVersion}/detran/debitos");
+                var response = await client.PostFormUrlEncoded(content);
+                return response;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
+        }
+        private HttpClientService<TInput, TResponse, TKey, CredPayTokenService> GetClient<TInput, TResponse, TKey>(string url, bool ignoreHeaders = true)
+        {
+            var client = new HttpClientService<TInput, TResponse, TKey, CredPayTokenService>(HttpClientTokenType.XAPIToken, TokenService.Token);
+            client.Init(url, TokenService, ignoreHeaders: ignoreHeaders);
+            return client;
         }
 
         private void CheckSuportedUf(string uf)

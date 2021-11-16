@@ -11,6 +11,7 @@ namespace Detran.Api
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddScoped(typeof(IUnitOfWorkFactory<>), typeof(AulaRemotaUnitOfWorkFactory<>));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddHttpClient();
 
             return services;
         }
