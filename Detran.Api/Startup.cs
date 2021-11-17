@@ -31,13 +31,15 @@ namespace Detran.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var assembly = AppDomain.CurrentDomain.Load("Detran.Domain");
+            services.AddMediatR(assembly);
+
             services.AddControllers();
             services.AddApiVersioning();
             services.AddMvc();
             services.AddDependencyInjection();
 
-            var assembly = AppDomain.CurrentDomain.Load("Detran.Domain");
-            services.AddMediatR(assembly);
 
             //Configurações do Token da API
             var apiTokenConfigurations = new ApiTokenConfiguration();

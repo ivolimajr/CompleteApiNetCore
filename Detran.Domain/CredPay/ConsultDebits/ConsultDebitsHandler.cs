@@ -15,10 +15,11 @@ namespace Detran.Domain.CredPay.ConsultDebits
 {
     public class ConsultDebitsHandler : IRequestHandler<ConsultDebitsInput, ConsultDebitsResponse>
     {
+
         public IConfiguration Configuration { get; }
         public CredPayTokenService TokenService { get; }
 
-        private const string ENDPOINT = "detran/debitos";
+        private const string ENDPOINT = "/detran/debitos";
 
         public ConsultDebitsHandler(IConfiguration configuration, IHttpClientFactory clientFactory, CredPayTokenService tokenService)
         {
@@ -35,11 +36,13 @@ namespace Detran.Domain.CredPay.ConsultDebits
         public async Task<ConsultDebitsResponse> Handle(ConsultDebitsInput request, CancellationToken cancellationToken)
         {
 
-            var config = Configuration.GetSection("CredPayConfig").Get<CredPayConfig>();
-
             try
             {
-                CheckSuportedUf(request.Uf);
+                request.Uf = "MS";
+                request.Pais = "BR";
+                request.Placa = "MRZ4519";
+                request.Renavam = "00225622521";
+                //CheckSuportedUf(request.Uf);
 
                 var content = new FormUrlEncodedContent(new[]{
                 new KeyValuePair<string, string>("pais", request.Pais),
@@ -48,20 +51,20 @@ namespace Detran.Domain.CredPay.ConsultDebits
                 new KeyValuePair<string, string>("renavam", request.Renavam),
                 });
 
+                var client = new HttpClientService<ConsultDebitsInput, ConsultDebitsResponse, CredPayTokenService, Guid>(HttpClientTokenType.XAPIToken, TokenService.Token);
+                client.Init(TokenService.BaseAddress+"/"+TokenService.ApiVersion+ENDPOINT, TokenService,ignoreHeaders: true);
+                var response = await client.PostFormUrlEncoded(content);
+                return response;
+                /*
                 var client = GetClient<ConsultDebitsInput, ConsultDebitsResponse, Guid>($"/{TokenService.ApiVersion}/detran/debitos");
                 var response = await client.PostFormUrlEncoded(content);
                 return response;
+                */
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-        }
-        private HttpClientService<TInput, TResponse, TKey, CredPayTokenService> GetClient<TInput, TResponse, TKey>(string url, bool ignoreHeaders = true)
-        {
-            var client = new HttpClientService<TInput, TResponse, TKey, CredPayTokenService>(HttpClientTokenType.XAPIToken, TokenService.Token);
-            client.Init(url, TokenService, ignoreHeaders: ignoreHeaders);
-            return client;
         }
 
         private void CheckSuportedUf(string uf)

@@ -20,16 +20,19 @@ namespace Detran.Shared.Services.HttpMethods
         public const string XAPIToken = "x-api-key";
     }
 
-    public class HttpClientService<TInput, TResponse, TKey, TTokenService>
+    public class HttpClientService<TInput, TResponse, TTokenService, TKey>
+        where TInput : class
+        where TResponse : class, new()
         where TTokenService : AuthTokentService
-        //where TInput : class, new()
-        //where TResponse : class, new()
     {
+
+        static readonly HttpClient httpClient = new HttpClient();
+
         private bool _useBearer = true;
-        private HttpClient HttpClient { get; set; }
         public string ApiVersion { get; set; }
         public TTokenService TokenService { get; set; }
         public string Endpoint { get; set; }
+        private HttpClient HttpClient { get; set; }
 
         public HttpClientService(string tokenType, string token)
         {
@@ -59,7 +62,7 @@ namespace Detran.Shared.Services.HttpMethods
         {
             TokenService = tokenService;
             Endpoint = endpoint;
-            HttpClient.BaseAddress = new Uri(TokenService.BaseAddress, UriKind.RelativeOrAbsolute);
+            httpClient.BaseAddress = new Uri(TokenService.BaseAddress, UriKind.RelativeOrAbsolute);
 
             HttpClient.DefaultRequestHeaders
                 .Accept
@@ -99,18 +102,6 @@ namespace Detran.Shared.Services.HttpMethods
                   new AuthenticationHeaderValue("Bearer", TokenService.Token);
         }
 
-        public async Task<TResponse> Get(TKey id)
-        {
-            var response = await HttpClient.PostAsJsonAsync<TKey>(Endpoint, id);
-
-            if (response.StatusCode < HttpStatusCode.BadRequest)
-                return await response.Content.ReadAsAsync<TResponse>();
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            throw new HttpClientCustomException(result, Convert.ToInt32(response.StatusCode));
-        }
-
         public async Task<TResponse> Get()
         {
             var response = await HttpClient.GetAsync(Endpoint);
@@ -122,6 +113,18 @@ namespace Detran.Shared.Services.HttpMethods
             }
 
             return JsonConvert.DeserializeObject<TResponse>(result);
+        }
+
+        public async Task<TResponse> Get(TKey id)
+        {
+            var response = await HttpClient.PostAsJsonAsync<TKey>(Endpoint, id);
+
+            if (response.StatusCode < HttpStatusCode.BadRequest)
+                return await response.Content.ReadAsAsync<TResponse>();
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            throw new HttpClientCustomException(result, Convert.ToInt32(response.StatusCode));
         }
 
         public async Task<TResponse> Post(TInput entity)

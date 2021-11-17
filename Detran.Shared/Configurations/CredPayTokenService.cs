@@ -4,6 +4,6 @@ namespace Detran.Shared.Configurations
 {
     public class CredPayTokenService : AuthTokentService
     {
-        public string ApiVersion { get;  set; }
+        public string ApiVersion { get; set; }
     }
 }
