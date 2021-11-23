@@ -13,6 +13,7 @@ namespace Detran.Api
             //services.AddScoped(typeof(IUnitOfWorkFactory<>), typeof(AulaRemotaUnitOfWorkFactory<>));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<CredPayTokenService>();
+            services.AddScoped<EventsApiTokenService>();
             services.AddHttpClient();
 
             return services;

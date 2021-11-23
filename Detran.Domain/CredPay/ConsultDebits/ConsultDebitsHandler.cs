@@ -21,7 +21,7 @@ namespace Detran.Domain.CredPay.ConsultDebits
 
         private const string ENDPOINT = "/detran/debitos";
 
-        public ConsultDebitsHandler(IConfiguration configuration, IHttpClientFactory clientFactory, CredPayTokenService tokenService)
+        public ConsultDebitsHandler(IConfiguration configuration, CredPayTokenService tokenService)
         {
             Configuration = configuration;
             TokenService = tokenService;
