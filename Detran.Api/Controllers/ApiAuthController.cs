@@ -2,7 +2,6 @@
 using Detran.Domain.Application.Api.Auth.RefreshToken;
 using Detran.Shared.Helpers;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace Detran.Api.Controllers
 {
     /// <summary>
-    /// Endpoints para obter o token e refreshToken
+    /// Endpoints para obter o token e refreshTokens
     /// </summary>
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
